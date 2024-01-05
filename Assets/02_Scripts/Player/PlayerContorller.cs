@@ -50,7 +50,7 @@ public class PlayerContorller : MonoBehaviour
     {
         attackCollider.enabled = false;
         attackCollider.enabled = true; 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.3f);
         attackCollider.enabled = false;
     }
 }
