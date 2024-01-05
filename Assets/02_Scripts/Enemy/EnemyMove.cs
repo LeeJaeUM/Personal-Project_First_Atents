@@ -11,17 +11,7 @@ public class EnemyMove : MonoBehaviour
     {
         StartCoroutine(OneMove()); 
     }
-    private void Update()
-    {
-        // 목표 위치를 현재 위치보다 x축으로 -2만큼 설정합니다.
-        //if (isMoving)
-        //{
-        //    transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
-        //}
-        if(isMoving)
-        {
-        }
-    }
+
 
     private void Jump()
     {
@@ -43,8 +33,11 @@ public class EnemyMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        Debug.Log("Enemt touch_coL");
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Enemy touch Player_coL");
+        }
+        
     }
 
 }
