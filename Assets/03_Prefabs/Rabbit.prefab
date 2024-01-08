@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1940014030743651465}
   - component: {fileID: 7707901700041290412}
   - component: {fileID: 6820926862486856528}
-  - component: {fileID: 8221777537464803673}
   m_Layer: 8
   m_Name: Rabbit
   m_TagString: Enemy
@@ -124,8 +123,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
-  oneMovingTime: 0.5
+  oneMovingTime: 1
   moveLenght: 3
+  animLength: 0
+  deathPosition: {x: 0, y: 0, z: 0}
+  lifeTime: 10
 --- !u!61 &7707901700041290412
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -198,21 +200,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8221777537464803673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721548887433745610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceba792bda139de4288fa0fd4efc0188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animLength: 0
-  deathPosition: {x: 0, y: 0, z: 0}
-  lifeTime: 10
 --- !u!1001 &9092535664382056052
 PrefabInstance:
   m_ObjectHideFlags: 0
