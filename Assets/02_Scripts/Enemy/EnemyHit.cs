@@ -10,6 +10,7 @@ public class EnemyHit : MonoBehaviour
 
     public Vector3 deathPosition;
 
+    public float lifeTime = 10.0f;
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -20,6 +21,10 @@ public class EnemyHit : MonoBehaviour
         
         animLength = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
 
+    }
+    private void Start()
+    {
+        Destroy(gameObject, lifeTime);
     }
 
 

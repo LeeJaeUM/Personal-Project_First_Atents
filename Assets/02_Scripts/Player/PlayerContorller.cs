@@ -11,6 +11,7 @@ public class PlayerContorller : MonoBehaviour
     readonly int Attack_String = Animator.StringToHash("Attack");
     public BoxCollider2D attackCollider;
     Transform attackTransform;
+    public float attackTime = 0.1f;
     private void Awake()
     {
         inputAction = new PlayerInputAction();
@@ -50,7 +51,7 @@ public class PlayerContorller : MonoBehaviour
     {
         attackCollider.enabled = false;
         attackCollider.enabled = true; 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(attackTime);
         attackCollider.enabled = false;
     }
 }

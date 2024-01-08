@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
-  oneMovingTime: 1
+  oneMovingTime: 0.5
+  moveLenght: 3
 --- !u!61 &7707901700041290412
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -211,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animLength: 0
   deathPosition: {x: 0, y: 0, z: 0}
+  lifeTime: 10
 --- !u!1001 &9092535664382056052
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class EnemyMove : MonoBehaviour
 {
     public bool isMoving = false;      //이동중인지 확인
     public float oneMovingTime = 1.0f; //몇 초마다 움직일건지 
+    public float moveLenght = 3f;
 
     Animator anim;
     readonly int Move_String = Animator.StringToHash("Move");
@@ -19,7 +20,7 @@ public class EnemyMove : MonoBehaviour
     {
         while (true)
         {
-            Vector2 targetPosition = new Vector2(transform.position.x - 3, transform.position.y);
+            Vector2 targetPosition = new Vector2(transform.position.x - moveLenght, transform.position.y);
             isMoving = true;
             yield return new WaitForSeconds(oneMovingTime);
             anim.SetTrigger(Move_String);
