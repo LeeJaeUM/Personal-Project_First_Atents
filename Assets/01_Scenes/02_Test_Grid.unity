@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520395837908701206, guid: 4b93a965b42e9ad4caba5b205a10de20, type: 3}
       propertyPath: moveSpeed
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9168167195873855764, guid: 4b93a965b42e9ad4caba5b205a10de20, type: 3}
       propertyPath: m_UseFullKinematicContacts
