@@ -124,7 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   oneMovingTime: 1
-  moveLenght: 3
+  moveLength: 1
+  isDie: 0
   animLength: 0
   deathPosition: {x: 0, y: 0, z: 0}
   lifeTime: 10
@@ -164,7 +165,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1333333, y: 1.4666667}
+    oldSize: {x: 0.85, y: 1.1}
     newSize: {x: 0.34, y: 0.44}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
