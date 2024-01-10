@@ -8,6 +8,7 @@ public class EnemyMove : MonoBehaviour
 {
     public bool isMoving = false;      //이동중인지 확인
     public float oneMovingTime = 1.0f; //몇 초마다 움직일건지 
+    public float moveSpeed = 2;
     public float moveLength = 2f;
     private float elapsedTime = 0f;
 
@@ -17,8 +18,9 @@ public class EnemyMove : MonoBehaviour
 
     public bool isDie = false;
     public float animLength;
-    Vector2 direction;
-    Vector2 targetPosition;
+    Vector2 targetDistance = Vector2.zero;
+    Vector2 startPosition = Vector2.zero;
+    Vector2 targetPosition = Vector2.zero;
     public Vector3 deathPosition;
 
     public float lifeTime = 10.0f;
@@ -34,23 +36,12 @@ public class EnemyMove : MonoBehaviour
 
     private void Start()
     {
-        MoveCoroutine = OneMove();
+        MoveCoroutine = OneTimeMove();
         StartCoroutine(MoveCoroutine);
         Destroy(gameObject, lifeTime);
 
         // 플레이어를 찾음 (가정: 플레이어는 "Player" 태그를 가지고 있음)
         player = GameObject.FindGameObjectWithTag("Player");
-    }
-    private void Update()
-    {
-        if (!isDie)
-        {
-            // 보간을 사용하여 부드럽게 이동
-            transform.position = Vector2.Lerp(transform.position, targetPosition, elapsedTime / 10);
-
-            // 시간 업데이트
-            elapsedTime += Time.deltaTime;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -70,45 +61,50 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    IEnumerator OneMove()
+    IEnumerator OneTimeMove()
     {
-        ///while (true)
-        ///{
-        ///    Vector2 targetPosition = new Vector2(transform.position.x - moveLength, transform.position.y);
-        ///    isMoving = true;
-        ///    yield return new WaitForSeconds(oneMovingTime);
-        ///    anim.SetTrigger(Move_String);
-        ///    transform.position = targetPosition;
-        ///    isMoving = false;
-        ///}
-        while (true)
+        isMoving = true;
+        if(player != null)
         {
-
-            if (player != null)
+            // 플레이어와 Enemy 간의 방향을 계산
+            targetDistance = (player.transform.position - transform.position).normalized;
+            // 플레이어의 위치에서 x값이 1 또는 -1이면 y값을 0으로, y값이 1 또는 -1이면 x값을 0으로 설정
+            if (Mathf.Abs(targetDistance.x) == 1f)
             {
-                // 플레이어와 Enemy 간의 방향을 계산
-                direction = (player.transform.position - transform.position).normalized;
-
-                // 타겟 위치 계산
-                targetPosition = (Vector2)transform.position + direction * moveLength;
-
-                // 이동 가능
-                isMoving = true;
-
-                // 이동 애니메이션 및 실제 위치 변경
-                anim.SetTrigger(Move_String);
-                //transform.position = targetPosition;
-
-                yield return new WaitForSeconds(oneMovingTime);
-                isMoving = false;
+                targetDistance.y = 0f;
             }
-            else
+            else if (Mathf.Abs(targetDistance.y) == 1f)
             {
-                // 플레이어를 찾지 못한 경우에 대한 예외 처리 (예: 로그 출력)
-                Debug.LogError("Player not found!");
-                yield return new WaitForSeconds(oneMovingTime);
+                targetDistance.x = 0f;
             }
+            // 타겟 위치 계산
+            targetPosition = (Vector2)transform.position + targetDistance * moveLength;
         }
+        else
+        {
+            // 플레이어를 찾지 못한 경우에 대한 예외 처리 (예: 로그 출력)
+            Debug.LogError("Player not found!");
+            yield return new WaitForSeconds(oneMovingTime);
+        }
+
+        startPosition = transform.position;
+        targetPosition = startPosition * targetDistance;
+
+        // 이동 애니메이션
+        anim.SetTrigger(Move_String);
+
+        elapsedTime = 0f;
+        while (elapsedTime < 1.1f)
+        {
+                // 보간을 사용하여 부드럽게 이동
+                transform.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime);
+
+                // 시간 업데이트
+                elapsedTime += Time.fixedDeltaTime * moveSpeed;
+
+                yield return null; // 다음 프레임 대기
+        }
+        isMoving = false;
     }
 
     private void Die()

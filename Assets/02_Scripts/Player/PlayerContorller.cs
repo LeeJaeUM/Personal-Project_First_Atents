@@ -9,6 +9,7 @@ public class PlayerContorller : MonoBehaviour
 {
     PlayerInputAction inputAction;
     Animator anim;
+    Rigidbody2D rigid2d;
 
     [Header("공격관련")]
     readonly int Attack_String = Animator.StringToHash("Attack");
@@ -20,10 +21,15 @@ public class PlayerContorller : MonoBehaviour
     private Vector2 moveInput;
     public float moveSpeed = 2f; // 이동 속도 조절
     public float targetDistance = 1f; // 목표 거리
+    private bool isMoving = false;
+    private float elapsedTime = 0f;
+    Vector2 startPosition;
+    Vector2 targetPosition;
     private void Awake()
     {
         inputAction = new PlayerInputAction();
         anim = GetComponent<Animator>();
+        rigid2d = GetComponent<Rigidbody2D>();
         attackTransform = transform.GetChild(0);
         attackCollider = attackTransform.GetComponent<BoxCollider2D>();
     }
@@ -67,9 +73,22 @@ public class PlayerContorller : MonoBehaviour
         }
         // Move 입력 값 얻기
         moveInput = context.ReadValue<Vector2>();
-
-        // 이동 코루틴 시작
-        StartCoroutine(MoveToTarget());
+        // 대각선 이동 벡터를 수정하여 길이가 1 이하로 제한
+        if (Mathf.Abs(moveInput.x) == 1f)
+        {
+            moveInput.y = 0f;
+        }
+        else if (Mathf.Abs(moveInput.y) == 1f)
+        {
+            moveInput.x = 0f;
+        }
+        
+        
+        if (!isMoving)  //이동 중이 아닐 떄만 이동 가능
+        {
+            // 이동 코루틴 시작
+            StartCoroutine(MoveToTarget());
+        }
     }
     private void OnAttack(InputAction.CallbackContext context)
     {
@@ -81,11 +100,10 @@ public class PlayerContorller : MonoBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        
-    }
+    //private void FixedUpdate()
+    //{
+    //    //rigid2d.MovePosition(rigid2d.position + (Vector2)(Time.fixedDeltaTime * moveSpeed * moveInput));
+    //}
 
     IEnumerator Attack()
     {
@@ -96,22 +114,26 @@ public class PlayerContorller : MonoBehaviour
     }
     IEnumerator MoveToTarget()
     {
-        Vector2 startPosition = transform.position;
-        Vector2 targetPosition = startPosition + moveInput * targetDistance;
+        isMoving = true; //이동중 플래그
+        startPosition = transform.position;
+        targetPosition = startPosition + moveInput * targetDistance;
 
-        float elapsedTime = 0f;
+        elapsedTime = 0f;
 
-        while (elapsedTime < 1f)
+        while (elapsedTime < 1.1f)
         {
             // 보간을 사용하여 부드럽게 이동
             transform.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime);
 
             // 시간 업데이트
-            elapsedTime += Time.deltaTime * moveSpeed;
+            elapsedTime += Time.fixedDeltaTime * moveSpeed;
 
             yield return null; // 다음 프레임 대기
         }
+        isMoving = false; //이동 종료 플래그
 
         // 이동이 끝난 후 추가 작업을 수행하거나 초기화
+        // 플레이어의 위치를 반올림하여 소수점 제거
+         transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
     }
 }
