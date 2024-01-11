@@ -134,6 +134,6 @@ public class PlayerContorller : MonoBehaviour
 
         // 이동이 끝난 후 추가 작업을 수행하거나 초기화
         // 플레이어의 위치를 반올림하여 소수점 제거
-         transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+         //transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
     }
 }

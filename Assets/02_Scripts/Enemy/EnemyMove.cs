@@ -8,26 +8,28 @@ public class EnemyMove : MonoBehaviour
 {
     public bool isMoving = false;      //이동중인지 확인
     public float oneMovingTime = 1.0f; //몇 초마다 움직일건지 
-    public float moveSpeed = 2;
-    public float moveLength = 2f;
-    private float elapsedTime = 0f;
+    public float moveSpeed = 2;         //이동속도
+    public float moveLength = 1f;       //이동거리
+    private float elapsedTime = 0f;     //Time.deltaTime용 변수
 
     Animator anim;
     readonly int Move_String = Animator.StringToHash("Move");
     readonly int Die_String = Animator.StringToHash("Die");
 
-    public bool isDie = false;
-    public float animLength;
-    Vector2 targetDistance = Vector2.zero;
-    Vector2 startPosition = Vector2.zero;
-    Vector2 targetPosition = Vector2.zero;
-    public Vector3 deathPosition;
+    public bool isDie = false;      //사망확인
+    public float animLength;        //애니메이션 길이
+    Vector2 distanceToPlayer = Vector2.zero;  //이동할  거리
+    Vector2 startPosition = Vector2.zero;   //이동을 시작한 위치
+    Vector2 targetPosition = Vector2.zero;  //이동 후 도착할 위치
+    public Vector3 deathPosition;           //사망애니메이션 중 움직이기위한 위치
 
-    public float lifeTime = 10.0f;
-
-    IEnumerator MoveCoroutine;
+    IEnumerator MoveCoroutine;          //이동 코루틴
 
     GameObject player;
+
+    float absX; //절대값 비교용
+    float absY; //절대값 비교용
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -38,7 +40,7 @@ public class EnemyMove : MonoBehaviour
     {
         MoveCoroutine = OneTimeMove();
         StartCoroutine(MoveCoroutine);
-        Destroy(gameObject, lifeTime);
+       // Destroy(gameObject, lifeTime);
 
         // 플레이어를 찾음 (가정: 플레이어는 "Player" 태그를 가지고 있음)
         player = GameObject.FindGameObjectWithTag("Player");
@@ -64,21 +66,10 @@ public class EnemyMove : MonoBehaviour
     IEnumerator OneTimeMove()
     {
         isMoving = true;
-        if(player != null)
+        if(player != null)  //플레이어가 null이 아닐때
         {
             // 플레이어와 Enemy 간의 방향을 계산
-            targetDistance = (player.transform.position - transform.position).normalized;
-            // 플레이어의 위치에서 x값이 1 또는 -1이면 y값을 0으로, y값이 1 또는 -1이면 x값을 0으로 설정
-            if (Mathf.Abs(targetDistance.x) == 1f)
-            {
-                targetDistance.y = 0f;
-            }
-            else if (Mathf.Abs(targetDistance.y) == 1f)
-            {
-                targetDistance.x = 0f;
-            }
-            // 타겟 위치 계산
-            targetPosition = (Vector2)transform.position + targetDistance * moveLength;
+            distanceToPlayer = (player.transform.position - transform.position);
         }
         else
         {
@@ -87,23 +78,49 @@ public class EnemyMove : MonoBehaviour
             yield return new WaitForSeconds(oneMovingTime);
         }
 
-        startPosition = transform.position;
-        targetPosition = startPosition * targetDistance;
-
         // 이동 애니메이션
         anim.SetTrigger(Move_String);
 
+        // x와 y의 절대값 비교
+        absX = Mathf.Abs(distanceToPlayer.x);
+        absY = Mathf.Abs(distanceToPlayer.y);
+
+
+        // x의 절대값이 더 크면 x축으로 이동, 그렇지 않으면 y축으로 이동
+        if (absX > absY)
+        {
+            // 플레이어가 오른쪽에 있으면 x축으로 이동
+            if (distanceToPlayer.x > 0)
+                targetPosition = new Vector2(transform.position.x + moveLength, transform.position.y);
+            // 플레이어가 왼쪽에 있으면 x축으로 이동
+            else
+                targetPosition = new Vector2(transform.position.x - moveLength, transform.position.y);
+        }
+        else
+        {
+            // 플레이어가 위에 있으면 y축으로 이동
+            if (distanceToPlayer.y > 0)
+                targetPosition = new Vector2(transform.position.x, transform.position.y + moveLength);
+            // 플레이어가 아래에 있으면 y축으로 이동
+            else
+                targetPosition = new Vector2(transform.position.x, transform.position.y - moveLength);
+        }
+
+        startPosition = transform.position;
         elapsedTime = 0f;
+
         while (elapsedTime < 1.1f)
         {
-                // 보간을 사용하여 부드럽게 이동
-                transform.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime);
+            // 보간을 사용하여 부드럽게 이동
+            transform.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime);
 
-                // 시간 업데이트
-                elapsedTime += Time.fixedDeltaTime * moveSpeed;
+            // 시간 업데이트
+            elapsedTime += Time.fixedDeltaTime * moveSpeed;
 
-                yield return null; // 다음 프레임 대기
+            yield return null; // 다음 프레임 대기
         }
+
+
         isMoving = false;
     }
 
