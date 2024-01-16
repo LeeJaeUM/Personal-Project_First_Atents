@@ -483,6 +483,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestPallet
       objectReference: {fileID: 0}
+    - target: {fileID: 4283874138680829467, guid: 73692bf12ed0dee4399fcceefd921852, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -669,10 +673,6 @@ PrefabInstance:
     - target: {fileID: 502808736882227179, guid: bf8a44df48db223419fca794fd658487, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1940014030743651465, guid: bf8a44df48db223419fca794fd658487, type: 3}
-      propertyPath: lifeTime
-      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2721548887433745610, guid: bf8a44df48db223419fca794fd658487, type: 3}
       propertyPath: m_Name

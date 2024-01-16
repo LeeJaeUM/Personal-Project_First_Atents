@@ -11,6 +11,9 @@ public class PlayerContorller : MonoBehaviour
     Animator anim;
     Rigidbody2D rigid2d;
 
+    [Header("시스템관련")] 
+    public int turn = 0;
+
     [Header("공격관련")]
     readonly int Attack_String = Animator.StringToHash("Attack");
     public BoxCollider2D attackCollider;
@@ -25,6 +28,7 @@ public class PlayerContorller : MonoBehaviour
     private float elapsedTime = 0f;
     Vector2 startPosition;
     Vector2 targetPosition;
+
     private void Awake()
     {
         inputAction = new PlayerInputAction();
@@ -135,5 +139,10 @@ public class PlayerContorller : MonoBehaviour
         // 이동이 끝난 후 추가 작업을 수행하거나 초기화
         // 플레이어의 위치를 반올림하여 소수점 제거
          //transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+    }
+
+    public void IncrementTurn()
+    {
+        turn++;
     }
 }

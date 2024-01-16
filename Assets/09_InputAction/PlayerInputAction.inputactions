@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInpuAction",
+    "name": "PlayerInputAction",
     "maps": [
         {
             "name": "Player",
@@ -27,6 +27,15 @@
                     "name": "Enter",
                     "type": "Button",
                     "id": "f4cf64bd-a653-4d03-b0ab-40541986ac70",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CardClick",
+                    "type": "Button",
+                    "id": "7132a7cb-9dfd-436c-8402-ceacd52ede6f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -163,6 +172,17 @@
                     "processors": "",
                     "groups": "KM",
                     "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee969e44-203d-4618-9349-7f73fc732b75",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KM",
+                    "action": "CardClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

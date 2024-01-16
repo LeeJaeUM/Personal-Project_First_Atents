@@ -53,6 +53,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CardClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""7132a7cb-9dfd-436c-8402-ceacd52ede6f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -187,6 +196,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee969e44-203d-4618-9349-7f73fc732b75"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""CardClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -215,6 +235,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Enter = m_Player.FindAction("Enter", throwIfNotFound: true);
+        m_Player_CardClick = m_Player.FindAction("CardClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -279,6 +300,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Enter;
+    private readonly InputAction m_Player_CardClick;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -286,6 +308,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Enter => m_Wrapper.m_Player_Enter;
+        public InputAction @CardClick => m_Wrapper.m_Player_CardClick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -304,6 +327,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Enter.started += instance.OnEnter;
             @Enter.performed += instance.OnEnter;
             @Enter.canceled += instance.OnEnter;
+            @CardClick.started += instance.OnCardClick;
+            @CardClick.performed += instance.OnCardClick;
+            @CardClick.canceled += instance.OnCardClick;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -317,6 +343,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Enter.started -= instance.OnEnter;
             @Enter.performed -= instance.OnEnter;
             @Enter.canceled -= instance.OnEnter;
+            @CardClick.started -= instance.OnCardClick;
+            @CardClick.performed -= instance.OnCardClick;
+            @CardClick.canceled -= instance.OnCardClick;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -348,5 +377,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
+        void OnCardClick(InputAction.CallbackContext context);
     }
 }
