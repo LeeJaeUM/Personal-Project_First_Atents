@@ -13,8 +13,19 @@ public class DeckBuilder : MonoBehaviour
 
     private void Start()
     {
-        BuildInitialDeck();
+        // BuildInitialDeck();
+        DeckSetting();
         UpdateDeckSizeText();
+    }
+
+    private void DeckSetting()
+    {
+        playerDeck = availableCards;
+        for(int i=0; i< playerDeck.Count; i++)
+        {
+            CardBase selectedCard = playerDeck[i];
+            CardBase newCard = Instantiate(selectedCard, transform);
+        }
     }
 
     void BuildInitialDeck()
@@ -32,7 +43,16 @@ public class DeckBuilder : MonoBehaviour
         deckSizeText.text = $"µ¦ Å©±â: {playerDeck.Count}";
     }
 
-    public void OnCardClick(CardBase clickedCard)
+    //public void OnCardClick(CardBase clickedCard)
+    //{
+    //    if (playerDeck.Contains(clickedCard))
+    //    {
+    //        clickedCard.ApplyCardEffect();
+    //        playerDeck.Remove(clickedCard);
+    //        UpdateDeckSizeText();
+    //    }
+    //}
+    public int OnCardClick(CardBase clickedCard)
     {
         if (playerDeck.Contains(clickedCard))
         {
@@ -40,5 +60,6 @@ public class DeckBuilder : MonoBehaviour
             playerDeck.Remove(clickedCard);
             UpdateDeckSizeText();
         }
+        return clickedCard.cardID;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum CardAttribute
@@ -23,28 +22,6 @@ public class CardBase : MonoBehaviour
     public CardAttribute attribute;
     public int cost;
 
-    PlayerInputAction inputAction;
-
-    private void Awake()
-    {
-        inputAction = new PlayerInputAction();
-    }
-    private void OnEnable()
-    {
-        inputAction.Player.Enable();
-        inputAction.Player.CardClick.performed += OnCardClick;
-    }
-
-    private void OnCardClick(InputAction.CallbackContext context)
-    {
-        Debug.Log("눌렷음 마우스");
-    }
-
-    private void OnDisable()
-    {
-        inputAction.Player.CardClick.performed -= OnCardClick;
-        inputAction.Player.Disable();
-    }
     public void InitializeCard(int uniqueID, int attackValue, CardAttribute cardAttribute, int cardCost)
     {
         cardID = uniqueID;
