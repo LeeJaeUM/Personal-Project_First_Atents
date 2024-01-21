@@ -79,18 +79,6 @@ public class CardManager : MonoBehaviour
         DetectCardArea();
     }
 
-    private void CardDrag()
-    {
-        
-    }
-
-    private void DetectCardArea()
-    {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
-        int layer = LayerMask.NameToLayer("MyCardArea");
-        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
-    }
-
     void AddCard(bool isMine)
     {
         var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
@@ -177,6 +165,7 @@ public class CardManager : MonoBehaviour
 
     public void CardMouseOver(Card card)
     {
+        selectCard = card;
         EnlargeCard(true, card);
     }
     public void CardMouseExit(Card card)
@@ -190,6 +179,19 @@ public class CardManager : MonoBehaviour
     public void CardMouseUp()
     {
         isMyCardDrag = false;
+    }
+    private void CardDrag()
+    {
+        if (!onMyCardArea)
+        {
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
+        }
+    }
+    private void DetectCardArea()
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("MyCardArea");
+        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
     }
 
     void EnlargeCard(bool isEnlarge, Card card) //마우스 오버 시 크기 확대
@@ -208,5 +210,6 @@ public class CardManager : MonoBehaviour
     }
 
     #endregion
+
 
 }
