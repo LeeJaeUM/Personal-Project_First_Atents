@@ -43,18 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BackGround
-    uniqueID: 2973796209
+  - name: Entity
+    uniqueID: 3926199355
     locked: 0
-  - name: Enviroment
-    uniqueID: 3324414251
-    locked: 0
-  - name: Tile
-    uniqueID: 2348964373
-    locked: 0
-  - name: Enemy
-    uniqueID: 3974292297
-    locked: 0
-  - name: Player
-    uniqueID: 553226989
+  - name: Card
+    uniqueID: 2022677577
     locked: 0
