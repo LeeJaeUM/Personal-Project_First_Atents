@@ -76,6 +76,7 @@ public class CardManager : MonoBehaviour
         {
             CardDrag();
         }
+        DetectCardArea();
     }
 
     private void CardDrag()
