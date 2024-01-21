@@ -36,4 +36,5 @@ public class Order : MonoBehaviour
             renderer.sortingOrder = mulOrder + 1;
         }
     }
+
 }
