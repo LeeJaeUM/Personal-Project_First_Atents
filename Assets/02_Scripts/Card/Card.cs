@@ -61,4 +61,26 @@ public class Card : MonoBehaviour
             transform.localScale = prs.scale;
         }
     }
+
+    private void OnMouseOver()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseOver(this);
+    }
+
+    private void OnMouseExit()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseExit(this);
+    }
+    private void OnMouseDown()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseDown();
+    }
+    private void OnMouseUp()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseUp();
+    }
 }

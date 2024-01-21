@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
 {
@@ -18,7 +20,14 @@ public class CardManager : MonoBehaviour
     [SerializeField] Transform otherCardRight;     
 
     List<Item> itemBuffer;
+    Card selectCard;
+    bool isMyCardDrag;
+    bool onMyCardArea;
+
+
     float originScale = 1.0f;
+    float mouseOverYpos = -2.2f;
+    float mouseOverScale = 1.8f;
 
     public Item PopItem()   //아래에서 셋업한 아이템 버퍼에서 아이템 뽑기
     {
@@ -53,15 +62,32 @@ public class CardManager : MonoBehaviour
     private void Start()        //시작할때 셋업
     {
         SetUpItemBuffer();
+        TurnManager.OnAddCard += AddCard;
+    }
+
+    private void OnDestroy()
+    {
+        TurnManager.OnAddCard -= AddCard;
     }
 
     private void Update()       //1, 2누르면 테스트
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            AddCard(true);
+        if (isMyCardDrag)
+        {
+            CardDrag();
+        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.W))
-            AddCard(false);
+    private void CardDrag()
+    {
+        
+    }
+
+    private void DetectCardArea()
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("MyCardArea");
+        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
     }
 
     void AddCard(bool isMine)
@@ -145,4 +171,41 @@ public class CardManager : MonoBehaviour
 
         return results;
     }
+
+    #region MyCard
+
+    public void CardMouseOver(Card card)
+    {
+        EnlargeCard(true, card);
+    }
+    public void CardMouseExit(Card card)
+    {
+        EnlargeCard(false, card);
+    }
+    public void CardMouseDown()
+    {
+        isMyCardDrag = true;
+    }
+    public void CardMouseUp()
+    {
+        isMyCardDrag = false;
+    }
+
+    void EnlargeCard(bool isEnlarge, Card card) //마우스 오버 시 크기 확대
+    {
+        if (isEnlarge)
+        {
+            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, mouseOverYpos, -10f); //카드가 커졌을때 겹쳐지는 다른 카드 무시하기 위해 앞으로 땡김
+            card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * mouseOverScale), false);   //스케일 키움 두트윈에셋 사용 안함
+        }
+        else
+        {
+            card.MoveTransform(card.originPRS, false);  //마우스 exit하면 다시 원래대로
+        }
+
+        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge); //솔팅 레이어 관련
+    }
+
+    #endregion
+
 }

@@ -21,4 +21,14 @@ public class PRS
 public class Utils
 {
     public static Quaternion QI => Quaternion.identity;
+
+    public static Vector3 MousePos
+    {
+        get
+        {
+            Vector3 result = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            result.z = -10; //카메라와 카드 사이
+            return result;
+        }
+    }
 }
