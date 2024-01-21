@@ -17,21 +17,43 @@ public class CardManager : MonoBehaviour
     [SerializeField] Transform myCardLeft;      //카드 정렬 위치
     [SerializeField] Transform myCardRight;     
     [SerializeField] Transform otherCardLeft;    
-    [SerializeField] Transform otherCardRight;     
+    [SerializeField] Transform otherCardRight;
+    [SerializeField] ECardState eCardState;  
 
     List<Item> itemBuffer;
     Card selectCard;
     bool isMyCardDrag;
     bool onMyCardArea;
+    enum ECardState {  Nothing, CanMouseOver, CanMouseDrag}
 
 
     float originScale = 1.0f;
     float mouseOverYpos = -2.2f;
     float mouseOverScale = 1.8f;
 
+    private void Start()        //시작할때 셋업
+    {
+        SetUpItemBuffer();
+        TurnManager.OnAddCard += AddCard;
+    }
+
+    private void OnDestroy()
+    {
+        TurnManager.OnAddCard -= AddCard;
+    }
+
+    private void Update()       //1, 2누르면 테스트
+    {
+        if (isMyCardDrag)
+        {
+            CardDrag();
+        }
+        DetectCardArea();
+        SetECardState();
+    }
     public Item PopItem()   //아래에서 셋업한 아이템 버퍼에서 아이템 뽑기
     {
-        if(itemBuffer.Count == 0)
+        if (itemBuffer.Count == 0)
         {
             SetUpItemBuffer();
         }
@@ -58,25 +80,6 @@ public class CardManager : MonoBehaviour
             itemBuffer[i] = itemBuffer[rand];
             itemBuffer[rand] = temp;
         }
-    }
-    private void Start()        //시작할때 셋업
-    {
-        SetUpItemBuffer();
-        TurnManager.OnAddCard += AddCard;
-    }
-
-    private void OnDestroy()
-    {
-        TurnManager.OnAddCard -= AddCard;
-    }
-
-    private void Update()       //1, 2누르면 테스트
-    {
-        if (isMyCardDrag)
-        {
-            CardDrag();
-        }
-        DetectCardArea();
     }
 
     void AddCard(bool isMine)
@@ -207,6 +210,17 @@ public class CardManager : MonoBehaviour
         }
 
         card.GetComponent<Order>().SetMostFrontOrder(isEnlarge); //솔팅 레이어 관련
+    }
+
+    void SetECardState()
+    {
+        if (TurnManager.Inst.isLoading)
+            eCardState = ECardState.Nothing;
+        else if (!TurnManager.Inst.myTurn)
+            eCardState = ECardState.CanMouseOver;
+        else if (TurnManager.Inst.myTurn)
+            eCardState = ECardState.CanMouseDrag;
+            
     }
 
     #endregion
