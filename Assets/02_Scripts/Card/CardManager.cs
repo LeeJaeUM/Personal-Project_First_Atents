@@ -168,6 +168,9 @@ public class CardManager : MonoBehaviour
 
     public void CardMouseOver(Card card)
     {
+        if (eCardState == ECardState.Nothing)   //eCardState == ECardState.Nothing일때 오버 못하게 막기
+            return;
+
         selectCard = card;
         EnlargeCard(true, card);
     }
@@ -177,11 +180,18 @@ public class CardManager : MonoBehaviour
     }
     public void CardMouseDown()
     {
+        if (eCardState != ECardState.CanMouseDrag)
+            return;
+
         isMyCardDrag = true;
     }
     public void CardMouseUp()
     {
         isMyCardDrag = false;
+
+        if (eCardState != ECardState.CanMouseDrag)
+            return;
+
     }
     private void CardDrag()
     {
