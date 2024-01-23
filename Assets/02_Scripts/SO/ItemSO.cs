@@ -10,6 +10,7 @@ public class Item
     public int cost;
     public Sprite sprite;
     public float percent;
+    public int itemCode;
 }
 
 [CreateAssetMenu(fileName ="ItemSO", menuName = "Sctiptable Object/ItemSO")]

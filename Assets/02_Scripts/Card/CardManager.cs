@@ -178,14 +178,14 @@ public class CardManager : MonoBehaviour
     {
         EnlargeCard(false, card);
     }
-    public void CardMouseDown()
+    public void CardMouseDown()     //마우스를 누르면 bool변수 isMyCardDrag ture로 바꿔서 Update의 CardDrag() 실행가능하게
     {
         if (eCardState != ECardState.CanMouseDrag)
             return;
 
         isMyCardDrag = true;
     }
-    public void CardMouseUp()
+    public void CardMouseUp()       //마우스를 떼면 false로 바뀌며 카드의 위치를 다시 원래대로
     {
         isMyCardDrag = false;
 
@@ -193,18 +193,18 @@ public class CardManager : MonoBehaviour
             return;
 
     }
-    private void CardDrag()
+    private void CardDrag()     //카드 드래그 = 마우스의 위치에 카드의 위치를 고정
     {
         if (!onMyCardArea)
         {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
         }
     }
-    private void DetectCardArea()
+    private void DetectCardArea()   //카드 선택 레이어 확대 및 드래그 가능 공간
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
-        int layer = LayerMask.NameToLayer("MyCardArea");
-        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);    //마우스 위치에 레이캐스트 쏘기
+        int layer = LayerMask.NameToLayer("MyCardArea");                                // 레이캐스트가 판단할 레이어 이름
+        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);   // 카드 공간에 마우스가 들어오면 true 아니면 false
     }
 
     void EnlargeCard(bool isEnlarge, Card card) //마우스 오버 시 크기 확대

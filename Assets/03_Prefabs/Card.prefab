@@ -198,7 +198,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.3, z: 0}
-  m_LocalScale: {x: 0.105154, y: 0.11022516, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5015722987988963880}
@@ -704,13 +704,13 @@ MonoBehaviour:
   character: {fileID: 7467602095632761762}
   nameTMP: {fileID: 4798217010982175568}
   attackTMP: {fileID: 5833753890073759793}
-  healthTMP: {fileID: 3736837902814821966}
+  costTMP: {fileID: 3736837902814821966}
   cardFront: {fileID: -90632632, guid: 34482e745bf910e4c814f3bb7231d88d, type: 3}
   cardBack: {fileID: -719900847, guid: 34482e745bf910e4c814f3bb7231d88d, type: 3}
   item:
     name: 
     attack: 0
-    health: 0
+    cost: 0
     sprite: {fileID: 0}
     percent: 0
   originPRS:

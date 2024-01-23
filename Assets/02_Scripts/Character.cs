@@ -52,4 +52,8 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void Checked(int index)
+    {
+        Debug.Log($"지금 {index}의 위치의 타일에 있다.");
+    }
 }

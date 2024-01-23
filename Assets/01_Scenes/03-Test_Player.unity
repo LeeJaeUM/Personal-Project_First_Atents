@@ -677,6 +677,7 @@ MonoBehaviour:
   myCardRight: {fileID: 962628805}
   otherCardLeft: {fileID: 944743000}
   otherCardRight: {fileID: 1788587068}
+  eCardState: 0
 --- !u!4 &323398840
 Transform:
   m_ObjectHideFlags: 0
