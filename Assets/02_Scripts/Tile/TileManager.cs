@@ -66,6 +66,20 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    public void PlayerAttackLeft_One(int range)
+    {
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].tileOnObjType == 1)
+            {
+                // if (tiles[i + 1].tileOnObjType == 2)    
+                // {
+                tiles[i - range].TakeDamage_t(1);
+                //}
+            }
+        }
+    }
+
 
     void CheckObj()
     {

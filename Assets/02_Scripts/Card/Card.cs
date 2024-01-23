@@ -10,7 +10,7 @@ public class Card : MonoBehaviour
     [SerializeField] SpriteRenderer character;
     [SerializeField] TMP_Text nameTMP;
     [SerializeField] TMP_Text attackTMP;
-    [SerializeField] TMP_Text healthTMP;
+    [SerializeField] TMP_Text costTMP;
     [SerializeField] Sprite cardFront;
     [SerializeField] Sprite cardBack;
 
@@ -28,14 +28,14 @@ public class Card : MonoBehaviour
             character.sprite = this.item.sprite;
             nameTMP.text = this.item.name;
             attackTMP.text = this.item.attack.ToString();
-            healthTMP.text = this.item.health.ToString();
+            costTMP.text = this.item.cost.ToString();
         }
         else
         {
             card.sprite = cardBack;
             nameTMP.text = "";
             attackTMP.text = "";
-            healthTMP.text = "";
+            costTMP.text = "";
         }
     }
 

@@ -10,18 +10,22 @@ public class TestTile : TestBase
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
-        tileManager.MovePlayer_Right();
+        tileManager.MovePlayer_Left();
     }
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        tileManager.PlayerAttackRight_One(1);
+        tileManager.MovePlayer_Right();
     }
     protected override void OnTest3(InputAction.CallbackContext context)
     {
-        tiles[2].TakeDamage_t(1);
+        tileManager.PlayerAttackLeft_One(1);
     }
     protected override void OnTest4(InputAction.CallbackContext context)
     {
-        tiles[3].TakeDamage_t(1);
+        tileManager.PlayerAttackRight_One(2);
+    }
+    protected override void OnTest5(InputAction.CallbackContext context)
+    {
+        
     }
 }

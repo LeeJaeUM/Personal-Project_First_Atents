@@ -7,7 +7,7 @@ public class Item
 {
     public string name;
     public int attack;
-    public int health;
+    public int cost;
     public Sprite sprite;
     public float percent;
 }

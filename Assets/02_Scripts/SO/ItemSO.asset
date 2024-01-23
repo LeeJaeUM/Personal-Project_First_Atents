@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: ItemSO
   m_EditorClassIdentifier: 
   items:
-  - name: Angel
-    attack: 3
-    health: 4
-    sprite: {fileID: 21300000, guid: 4dbe5c6ea57753e4ea14d516437a2861, type: 3}
-    percent: 25
-  - name: Cat
+  - name: LeftMove
+    attack: 0
+    cost: 0
+    sprite: {fileID: 21300000, guid: c3c57c71ddecf8d479bd631748fa4421, type: 3}
+    percent: 1
+  - name: RightMove
+    attack: 0
+    cost: 0
+    sprite: {fileID: 21300000, guid: ec6568113a7be924f9d6555f0b85e6a0, type: 3}
+    percent: 1
+  - name: LeftAttack
     attack: 1
-    health: 1
-    sprite: {fileID: 21300000, guid: eaf9b65be04f1be4fb33a41b4b21b2fb, type: 3}
-    percent: 50
-  - name: RedBull
-    attack: 3
-    health: 2
-    sprite: {fileID: 21300000, guid: f988fbff26e2a3646ba7fcc7e04945c6, type: 3}
-    percent: 15
-  - name: Tiger
-    attack: 5
-    health: 5
-    sprite: {fileID: 21300000, guid: 198aeb5d3919ed942b9c6c89e068c74a, type: 3}
-    percent: 10
+    cost: 1
+    sprite: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
+    percent: 1
+  - name: RightAttack
+    attack: 1
+    cost: 1
+    sprite: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
+    percent: 2
