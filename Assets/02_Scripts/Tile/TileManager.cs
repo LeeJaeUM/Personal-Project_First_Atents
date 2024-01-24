@@ -38,22 +38,40 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    void TestTileAttack(Tile myTile, bool left, int range, bool overTile, int overRange)
+    public void TestTileAttack(Tile myTile, bool right, int damage, int range, bool overTile, int overRange)
     {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i] == myTile)
-            {
-                if (left)
+       int temp = 0;
+       int atkDir = 1;
+       if (overTile)
+       {
+           temp += overRange; //건너뛸 거리
+       }
+       if (!right) //fasle라면 왼쪽 공격
+       {
+           atkDir = -1;
+       }
+       for (int i = 0; i < tiles.Length; i++)
+       {
+           if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
+           {
+                switch (range)
                 {
-                    range = -range;
+                    case 1:
+                        tiles[i + (range*atkDir) + (temp*atkDir)].TakeDamage_t(damage);
+                        Debug.Log($"범위 {range}의 공격 - 뛰어넘은 거리 = {temp}");
+                        break;
+                    default:
+                        for(int j = 1; j < range+1; j++)
+                        {
+                            tiles[i + (j * atkDir) + (temp * atkDir)].TakeDamage_t(damage);
+
+                            Debug.Log($"범위 {range}의 공격 - 뛰어넘은 거리 = {temp}");
+                            Debug.Log($"------{j}번째 공격 ");
+                        }
+                        break;
                 }
-                if (tiles[i +1].tileOnObjType == 0)// 목표위치에 어던 obj라도 존재한다면
-                {
-                    tiles[i].MoveObj_t(tiles[i - 1].transform);
-                }
-            }
-        }
+           }
+       }
     }
 
     #region 일단 테스트

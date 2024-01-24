@@ -18,11 +18,11 @@ public class TestTile : TestBase
     }
     protected override void OnTest3(InputAction.CallbackContext context)
     {
-        tileManager.PlayerAttackLeft_One(1);
+        //tileManager.PlayerAttackLeft_One(1);
     }
     protected override void OnTest4(InputAction.CallbackContext context)
     {
-        tileManager.PlayerAttackRight_One(2);
+        //tileManager.PlayerAttackRight_One(2);
     }
     protected override void OnTest5(InputAction.CallbackContext context)
     {

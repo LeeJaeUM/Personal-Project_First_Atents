@@ -18,18 +18,22 @@ MonoBehaviour:
     cost: 1
     sprite: {fileID: 21300000, guid: c3c57c71ddecf8d479bd631748fa4421, type: 3}
     percent: 1
+    itemCode: 0
   - name: RightMove
     attack: 0
     cost: 1
     sprite: {fileID: 21300000, guid: ec6568113a7be924f9d6555f0b85e6a0, type: 3}
     percent: 1
+    itemCode: 2
   - name: LeftAttack
     attack: 2
     cost: 2
     sprite: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
     percent: 1
+    itemCode: 4
   - name: RightAttack
     attack: 2
     cost: 2
     sprite: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
     percent: 2
+    itemCode: 6
