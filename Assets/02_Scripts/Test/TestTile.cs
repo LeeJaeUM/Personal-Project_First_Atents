@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 public class TestTile : TestBase
 {
-    public Tile[] tiles;
+    //public Tile[] tiles;
     public TileManager tileManager;
 
+    public event System.Action<int> OnCostChange;
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         tileManager.MovePlayer_Left();
+        OnCostChange?.Invoke(1);
     }
     protected override void OnTest2(InputAction.CallbackContext context)
     {

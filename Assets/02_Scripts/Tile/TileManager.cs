@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,11 +81,15 @@ public class TileManager : MonoBehaviour
         for (int i = 0; i < tiles.Length; i++)
         {
            if(tiles[i].tileOnObjType == 1)
-           {
-                if(tiles[i+1].tileOnObjType == 0)//인덱스가 없을 때 예외처리 추가예정
+            {
+                if(i + 1 < tiles.Length && (tiles[i + 1].tileOnObjType == 0))//인덱스가 없을 때 예외처리 추가예정
                 {
                     
                     tiles[i].MoveObj_t(tiles[i + 1].transform);
+                }
+                else
+                {
+                    Debug.Log("적이 있거나 배열 범위를 넘음");
                 }
            }
         }
@@ -96,10 +101,14 @@ public class TileManager : MonoBehaviour
         {
             if (tiles[i] == playerOnTile)
             {
-                if (tiles[i - 1].tileOnObjType == 0)//인덱스가 없을 때 예외처리 추가예정
+                if (i - 1 >= 0 && tiles[i - 1].tileOnObjType == 0)//인덱스가 없을 때 예외처리 추가예정
                 {
 
                     tiles[i].MoveObj_t(tiles[i - 1].transform);
+                }
+                else
+                {
+                    Debug.Log("적이 있거나 배열 범위를 넘음");
                 }
             }
         }

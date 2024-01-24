@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public int attackDamage = 1;
     private bool isDieCheck = false;
     public int maxHp = 5;
     [SerializeField]
     private int hp;
-    private int Hp
+    public int Hp
     {
         get => hp;
-        set
+        private set
         {
             if(hp != value)
             {
