@@ -12,20 +12,23 @@ public class CardManager : MonoBehaviour
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject cardPrefab;
     [SerializeField] List<Card> myCards;        //내 카드 리스트
-    [SerializeField] List<Card> otherCards;     //적 카드 리스트
+   // [SerializeField] List<Card> otherCards;     //적 카드 리스트
     [SerializeField] Transform cardSpawnPoint;     //카드 스폰 포인트
     [SerializeField] Transform myCardLeft;      //카드 정렬 위치
     [SerializeField] Transform myCardRight;     
-    [SerializeField] Transform otherCardLeft;    
-    [SerializeField] Transform otherCardRight;
-    [SerializeField] ECardState eCardState;  
+    //[SerializeField] Transform otherCardLeft;    
+   // [SerializeField] Transform otherCardRight;
+    [SerializeField] ECardState eCardState;
+
+    [SerializeField] List<Card> standbyCards;
 
     List<Item> itemBuffer;
     Card selectCard;
     bool isMyCardDrag;
     bool onMyCardArea;
+    bool onStandByArea;
     enum ECardState {  Nothing, CanMouseOver, CanMouseDrag}
-
+    CostManager costmanager;
 
     float originScale = 1.0f;
     float mouseOverYpos = -2.2f;
@@ -35,6 +38,7 @@ public class CardManager : MonoBehaviour
     {
         SetUpItemBuffer();
         TurnManager.OnAddCard += AddCard;
+        costmanager = CostManager.Inst.GetComponent<CostManager>();
     }
 
     private void OnDestroy()
@@ -67,12 +71,14 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i < itemSO.items.Length; i++)
         {
             Item item = itemSO.items[i];
-            for (int j = 0; j < item.percent; j++)  //퍼센트 만큼 카드 뽑기 확률아님
+            for (int j = 0; j < item.percent; j++)  //퍼센트 만큼 카드 뽑기 .확률아님
             {
                 itemBuffer.Add(item);
             }
         }
+        
 
+        //필요없어질 기능
         for (int i = 0; i < itemBuffer.Count; i++)  //주르륵 나온것 랜덤으로 순서 바꾸기
         {
             int rand = Random.Range(i, itemBuffer.Count);
@@ -86,19 +92,24 @@ public class CardManager : MonoBehaviour
     {
         var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
         var card = cardObject.GetComponent<Card>();
-        card.Setup(PopItem(), isMine);
-        (isMine ? myCards : otherCards).Add(card);  //내가 맞으면 내 카드에 아니면 적 카드에
-
-        SetOriginOrder(isMine); //카드 리스트에 추가하면서 솔팅 레이어 설정
-        CardAlignment(isMine);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
+        //card.Setup(PopItem(), isMine);
+        card.Setup(PopItem(), true);
+        //(isMine ? myCards : otherCards).Add(card);  //내가 맞으면 내 카드에 아니면 적 카드에
+        myCards.Add(card);
+        //SetOriginOrder(isMine); //카드 리스트에 추가하면서 솔팅 레이어 설정
+        //CardAlignment(isMine);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
+        SetOriginOrder(true); //카드 리스트에 추가하면서 솔팅 레이어 설정
+        CardAlignment(true);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
     }
 
     void SetOriginOrder(bool isMine)    //솔팅 레이어 설정을 위한 함수 AddCard에서 사용
     {
-        int count = isMine ? myCards.Count : otherCards.Count;
+        //int count = isMine ? myCards.Count : otherCards.Count;
+        int count = myCards.Count;
         for(int i=0; i < count; i++)
         {
-            var targetCard = isMine ? myCards[i] : otherCards[i];
+            //var targetCard = isMine ? myCards[i] : otherCards[i];
+            var targetCard = myCards[i];
             targetCard?.GetComponent<Order>().SetOriginOrder(i);
         }
     }
@@ -113,12 +124,12 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            originCardPRSs = RoundAlignment(otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one * originScale);
+           // originCardPRSs = RoundAlignment(otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one * originScale);
         }
-            
+
         //둥글게 정렬을 위한 추가
 
-        var targetCards = isMine ? myCards : otherCards;
+        var targetCards = myCards;//isMine ? myCards : otherCards;
         for(int i=0; i<targetCards.Count; i++)
         {
             var targetCard = targetCards[i];
@@ -155,7 +166,7 @@ public class CardManager : MonoBehaviour
             {           //원의 방정식 (x-a)^2 + (y-b)^2 = r^2
                 float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2)); //objLerps[i] - 0.5f 0과 1사이에서 0.5 빼니 중심이다
                 curve = height >= 0 ? curve : -curve;   //제곱하면 무조건+ 이므로 부호를 다시 부여 
-                targetPos.y += curve;
+                //targetPos.y += curve;
                 targetRot = Quaternion.Lerp(leftTr.rotation, rightTr.rotation, objLerps[i]); //제대로 작동안됨;; 회전이 안되는 문제
             }
             results.Add(new PRS(targetPos, targetRot, scale));
@@ -185,14 +196,35 @@ public class CardManager : MonoBehaviour
 
         isMyCardDrag = true;
     }
-    public void CardMouseUp()       //마우스를 떼면 false로 바뀌며 카드의 위치를 다시 원래대로
+    public void CardMouseUp(Card card)       //마우스를 떼면 false로 바뀌며 카드의 위치를 다시 원래대로
     {
         isMyCardDrag = false;
 
         if (eCardState != ECardState.CanMouseDrag)
             return;
 
+        //카드를 위에다 드래그 업 했을 때 카드는 위 쪽에 놓아지고 턴이 지나면 다시 돌아와야함
+        //card.gameObject.SetActive(false);
+        //card.gameObject.SetActive(true);
+        if (onStandByArea)
+        {
+            StandbyCards(card);
+        }
     }
+
+    private void StandbyCards(Card card)
+    {
+        if (costmanager.curCost >= card.item.cost)
+        {
+            myCards.Remove(card);
+            card.gameObject.SetActive(false);
+            standbyCards.Add(card);
+            costmanager.CostChange(-card.item.cost);
+            CardAlignment(true);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
+        }
+        else { return; }
+    }
+
     private void CardDrag()     //카드 드래그 = 마우스의 위치에 카드의 위치를 고정
     {
         if (!onMyCardArea)
@@ -205,6 +237,8 @@ public class CardManager : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);    //마우스 위치에 레이캐스트 쏘기
         int layer = LayerMask.NameToLayer("MyCardArea");                                // 레이캐스트가 판단할 레이어 이름
         onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);   // 카드 공간에 마우스가 들어오면 true 아니면 false
+        int standByLayer = LayerMask.NameToLayer("StandByArea");
+        onStandByArea = Array.Exists(hits, x => x.collider.gameObject.layer == standByLayer);
     }
 
     void EnlargeCard(bool isEnlarge, Card card) //마우스 오버 시 크기 확대

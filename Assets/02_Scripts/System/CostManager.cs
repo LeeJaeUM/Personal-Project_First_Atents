@@ -30,6 +30,6 @@ public class CostManager : MonoBehaviour
     public void CostChange(int cost)
     {
         curCost += cost;
-        OnCostChange?.Invoke(cost);
+        OnCostChange?.Invoke(curCost);
     }
 }

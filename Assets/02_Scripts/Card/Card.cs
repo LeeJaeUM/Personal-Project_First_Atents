@@ -81,6 +81,6 @@ public class Card : MonoBehaviour
     private void OnMouseUp()
     {
         if (isFront)
-            CardManager.Inst.CardMouseUp();
+            CardManager.Inst.CardMouseUp(this);
     }
 }
