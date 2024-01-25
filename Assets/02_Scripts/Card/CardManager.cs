@@ -212,7 +212,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void StandbyCards(Card card)
+    private void StandbyCards(Card card)    //상단에 드래그해서 놓으면 카드 삭제 및 standbyCards에 추가하고 
     {
         if (costmanager.curCost >= card.item.cost)
         {
