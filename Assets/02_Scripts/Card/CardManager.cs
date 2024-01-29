@@ -222,7 +222,7 @@ public class CardManager : MonoBehaviour
             costmanager.CostChange(-card.item.cost);
             CardAlignment(true);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
         }
-        else { return; }
+        else { return; }    //카드 코스트가 보유 코스트보다 높으면 무시
     }
 
     private void CardDrag()     //카드 드래그 = 마우스의 위치에 카드의 위치를 고정
