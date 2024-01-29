@@ -49,6 +49,8 @@ public class NotificationPanel : MonoBehaviour
         {
             transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
+            if (elapsedTime >= duration) 
+                ScaleZero();
             yield return null;
         }
     }
