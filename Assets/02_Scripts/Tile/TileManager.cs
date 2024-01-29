@@ -52,15 +52,21 @@ public class TileManager : MonoBehaviour
         switch(itemCode)
         {
             case 0:
+                PlayerMove(right);
                 break;
             case 1:
                 break;
             case 2:
+                PlayerMove(left);
                 break;   
             case 3: break;
-            case 4: break;
+            case 4:
+                PlayerAttack_One(1, right);
+                break;
             case 5: break;
-            case 6: break;
+            case 6:
+                PlayerAttack_One(1, left);
+                break;
             case 7: break; 
             case 8: break;
             case 9: break;
@@ -71,13 +77,13 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void MovePlayer(int attackDirection)
+    public void PlayerMove(int attackDirection)
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].tileOnObjType == 1)
             {
-                if (i + 1 < tiles.Length && (tiles[i + attackDirection].tileOnObjType == 0))//인덱스가 없을 때 예외처리 추가예정
+                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + attackDirection].tileOnObjType == 0))
                 {
 
                     tiles[i].MoveObj_t(tiles[i + attackDirection].transform);
@@ -96,7 +102,8 @@ public class TileManager : MonoBehaviour
         {
             if (tiles[i].tileOnObjType == 1)
             {
-                tiles[i + range * attackDirection].TakeDamage_t(1);
+                if(i + 1 < tiles.Length && i - 1 >= 0)
+                    tiles[i + range * attackDirection].TakeDamage_t(1);
             }
         }
     }

@@ -34,7 +34,7 @@ public class CardManager : MonoBehaviour
     float mouseOverYpos = -2.2f;
     float mouseOverScale = 1.8f;
 
-    public event System.Action<int> OnCardStandBy;
+    public event Action<int> OnCardStandBy; //TileManager에서 반응
 
     private void Start()        //시작할때 셋업
     {

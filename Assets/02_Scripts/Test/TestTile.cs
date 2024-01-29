@@ -7,22 +7,23 @@ public class TestTile : TestBase
 {
     //public Tile[] tiles;
     public TileManager tileManager;
+    public CostManager costManager;
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
-        tileManager.MovePlayer(1);
+        tileManager.PlayerMove(1);
     }
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        tileManager.MovePlayer(-1);
+        tileManager.PlayerMove(-1);
     }
     protected override void OnTest3(InputAction.CallbackContext context)
     {
-        //tileManager.PlayerAttackLeft_One(1);
+        costManager.CostChange(1);
     }
     protected override void OnTest4(InputAction.CallbackContext context)
     {
-        //tileManager.PlayerAttackRight_One(2);
+        costManager.CostChange(4);
     }
     protected override void OnTest5(InputAction.CallbackContext context)
     {

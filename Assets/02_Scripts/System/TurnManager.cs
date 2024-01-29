@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using Random = UnityEngine.Random;
 
 public class TurnManager : MonoBehaviour
@@ -23,6 +23,7 @@ public class TurnManager : MonoBehaviour
     WaitForSeconds delay07 = new WaitForSeconds(0.7f);
 
     public static Action<bool> OnAddCard;   //Cardmanager에서 반응
+    public static Action<int> OnTurnEnd;   //CostManager, TurnText에서 반응
 
     void GameSetup()
     {
@@ -71,6 +72,7 @@ public class TurnManager : MonoBehaviour
     public void EndTurn()
     {
         myTurn = !myTurn;
+        OnTurnEnd?.Invoke(1);
         StartCoroutine(StartTurnCo());
     }
 }

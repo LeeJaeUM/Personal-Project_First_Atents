@@ -14,12 +14,16 @@ public class CostManager : MonoBehaviour
     public bool isCostZero = false;
     public bool isCostFull = false;
 
+    private int turnCount = 0;
+    public int upCost_EndTurn = 4;
+    WaitForSeconds delay01 = new WaitForSeconds(0.1f);
+
     public event System.Action<int> OnCostChange;
 
     private void Start()
     {
         curCost = maxCost;
-        curCost = Mathf.Clamp(curCost, minCost, maxCost); //코스트 최대 최소값 제한
+        TurnManager.OnTurnEnd += TurnEndCostUp;
     }
     private void Update()
     {
@@ -30,6 +34,19 @@ public class CostManager : MonoBehaviour
     public void CostChange(int cost)
     {
         curCost += cost;
+        curCost = Mathf.Clamp(curCost, minCost, maxCost); //코스트 최대 최소값 제한
         OnCostChange?.Invoke(curCost);
     }
+
+    public void TurnEndCostUp(int _turnCountOne)
+    {
+        turnCount += _turnCountOne;
+        if (turnCount % 2 == 0)
+        {
+            if (isCostFull) return;
+            CostChange(upCost_EndTurn);
+        }
+    }
+
+
 }
