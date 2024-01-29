@@ -23,7 +23,7 @@ public class TurnManager : MonoBehaviour
     WaitForSeconds delay07 = new WaitForSeconds(0.7f);
 
     public static Action<bool> OnAddCard;   //Cardmanager에서 반응
-    public static Action<int> OnTurnEnd;   //CostManager, TurnText에서 반응
+    public static Action OnTurnEnd;   //CostManager, TurnText에서 반응
 
     void GameSetup()
     {
@@ -72,7 +72,7 @@ public class TurnManager : MonoBehaviour
     public void EndTurn()
     {
         myTurn = !myTurn;
-        OnTurnEnd?.Invoke(1);
+        OnTurnEnd?.Invoke();
         StartCoroutine(StartTurnCo());
     }
 }

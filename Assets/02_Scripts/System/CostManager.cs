@@ -15,7 +15,7 @@ public class CostManager : MonoBehaviour
     public bool isCostFull = false;
 
     private int turnCount = 0;
-    public int upCost_EndTurn = 4;
+    public int upCost_EndTurn = 2;
     WaitForSeconds delay01 = new WaitForSeconds(0.1f);
 
     public event System.Action<int> OnCostChange;
@@ -38,14 +38,10 @@ public class CostManager : MonoBehaviour
         OnCostChange?.Invoke(curCost);
     }
 
-    public void TurnEndCostUp(int _turnCountOne)
+    public void TurnEndCostUp()
     {
-        turnCount += _turnCountOne;
-        if (turnCount % 2 == 0)
-        {
-            if (isCostFull) return;
-            CostChange(upCost_EndTurn);
-        }
+        if (isCostFull) return;
+        CostChange(upCost_EndTurn);
     }
 
 

@@ -14,7 +14,6 @@ public class Cost : MonoBehaviour
         CostManager costManager = CostManager.Inst.GetComponent<CostManager>();
         costManager.OnCostChange += RefreshCost;
 
-
         cost.text = "6 / 6";
     }
 

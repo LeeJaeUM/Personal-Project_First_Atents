@@ -5,6 +5,10 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     public Tile tileOn;
+    TileManager tileManager;
+    public int attackDamage = 1;
+    public int enemyType = 0;
+    public bool playerDir = false;  //false¸é ¿ŞÂÊ true¸é ¿À¸¥ÂÊ °ø°İ
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,6 +16,10 @@ public class EnemyBase : MonoBehaviour
         {
             tileOn = collision.GetComponent<Tile>();
         }
+    }
+    private void Start()
+    {
+        tileManager = TileManager.Inst.GetComponent<TileManager>();
     }
     void Update()
     {
@@ -31,19 +39,19 @@ public class EnemyBase : MonoBehaviour
     //TileManager.Inst.TestTileAttack(tileOn, true=¿ìÃø/falseÁÂÃø, µ¥¹ÌÁö, ¹üÀ§, ¶ç´ÂÄ­ÀÌÀÖ´Â°¡?, ¸îÄ­ ¶é°ÇÁö);
     void Attack_1Range() // ÇÑ Ä­ °ø°İ
     {
-        TileManager.Inst.TestTileAttack(tileOn, false, 1, 1, false, 0);
+        tileManager.TestTileAttack(tileOn, playerDir, attackDamage, 1, false, 0);
     }
     void Attack_2Range() // µÎ Ä­ °ø°İ
     {
-        TileManager.Inst.TestTileAttack(tileOn, false, 2, 2, false, 0);
+        tileManager.TestTileAttack(tileOn, playerDir, attackDamage, 2, false, 0);
     }
     void Attack_1Over_1Range() // ÇÑ Ä­ ¶ç°í ÇÑ Ä­ °ø°İ
     {
-        TileManager.Inst.TestTileAttack(tileOn, false, 1, 1, true, 1);
+        tileManager.TestTileAttack(tileOn, playerDir, attackDamage, 1, true, 1);
     }
     void Attack_1Over_2Range() // ÇÑ Ä­ ¶ç°í µÎ Ä­ °ø°İ
     {
-        TileManager.Inst.TestTileAttack(tileOn, false, 2, 2, true, 1);
+        tileManager.TestTileAttack(tileOn, playerDir, attackDamage, 2, true, 1);
     }
 
 

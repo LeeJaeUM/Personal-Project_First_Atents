@@ -109,12 +109,20 @@ public class TileManager : MonoBehaviour
     }
 
     #endregion
-
-    public void TestTileAttack(Tile myTile, bool right, int damage, int range, bool overTile, int overRange)
+    /// <summary>
+    /// Enemy가 사용하는 공격 함수_TileManager
+    /// </summary>
+    /// <param name="myTile">현재 위치한 타일</param>
+    /// <param name="right">true=우측/false좌측</param>
+    /// <param name="damage">데미지</param>
+    /// <param name="range">범위</param>
+    /// <param name="isOverTile">띄는칸이있는가?</param>
+    /// <param name="overRange">몇칸 띌건지</param>
+    public void TestTileAttack(Tile myTile, bool right, int damage, int range, bool isOverTile, int overRange)
     {
        int temp = 0;
        int atkDir = 1;
-       if (overTile)
+       if (isOverTile)
        {
            temp += overRange; //건너뛸 거리
        }
