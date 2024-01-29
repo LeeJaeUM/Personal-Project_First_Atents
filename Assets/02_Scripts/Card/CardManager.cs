@@ -34,6 +34,8 @@ public class CardManager : MonoBehaviour
     float mouseOverYpos = -2.2f;
     float mouseOverScale = 1.8f;
 
+    public event System.Action<int> OnCardStandBy;
+
     private void Start()        //시작할때 셋업
     {
         SetUpItemBuffer();
@@ -113,7 +115,7 @@ public class CardManager : MonoBehaviour
             targetCard?.GetComponent<Order>().SetOriginOrder(i);
         }
     }
-
+    #region 카드 정렬
     void CardAlignment(bool isMine)  //두트윈에셋 사용해 카드 정렬하며 움직이기--
     {
         //둥글게 정렬을 위한 추가
@@ -174,7 +176,7 @@ public class CardManager : MonoBehaviour
 
         return results;
     }
-
+    #endregion
     #region MyCard
 
     public void CardMouseOver(Card card)
@@ -221,6 +223,7 @@ public class CardManager : MonoBehaviour
             standbyCards.Add(card);
             costmanager.CostChange(-card.item.cost);
             CardAlignment(true);      //두트윈에셋 사용해 카드 정렬하며 움직이기--
+            OnCardStandBy?.Invoke(card.item.itemCode);
         }
         else { return; }    //카드 코스트가 보유 코스트보다 높으면 무시
     }

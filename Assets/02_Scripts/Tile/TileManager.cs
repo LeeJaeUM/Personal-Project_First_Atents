@@ -12,6 +12,10 @@ public class TileManager : MonoBehaviour
     [SerializeField] Transform[] tilesTransforms;
 
     public Tile playerOnTile;
+    CardManager cardManager;
+
+    private int right = 1;
+    private int left = -1;
 
     private void Start()
     {
@@ -27,6 +31,9 @@ public class TileManager : MonoBehaviour
         {
             tile.OnTileOnObject += ObjectOnTile;
         }
+        cardManager = CardManager.Inst.GetComponent<CardManager>();
+        cardManager.OnCardStandBy += PlayerCardStandby;
+
     }
     private void ObjectOnTile(int objType, Tile tile)
     {
@@ -38,6 +45,63 @@ public class TileManager : MonoBehaviour
             playerOnTile = tile;
         }
     }
+
+    #region 일단 테스트
+    private void PlayerCardStandby(int itemCode)
+    {
+        switch(itemCode)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;   
+            case 3: break;
+            case 4: break;
+            case 5: break;
+            case 6: break;
+            case 7: break; 
+            case 8: break;
+            case 9: break;
+            case 10: break;
+            default:
+                Debug.Log("현재 없는 카드 코드입니다");
+                break;
+        }
+    }
+
+    public void MovePlayer(int attackDirection)
+    {
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].tileOnObjType == 1)
+            {
+                if (i + 1 < tiles.Length && (tiles[i + attackDirection].tileOnObjType == 0))//인덱스가 없을 때 예외처리 추가예정
+                {
+
+                    tiles[i].MoveObj_t(tiles[i + attackDirection].transform);
+                }
+                else
+                {
+                    Debug.Log("적이 있거나 배열 범위를 넘음");
+                }
+            }
+        }
+    }
+
+    public void PlayerAttack_One(int range, int attackDirection)
+    {
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].tileOnObjType == 1)
+            {
+                tiles[i + range * attackDirection].TakeDamage_t(1);
+            }
+        }
+    }
+
+    #endregion
 
     public void TestTileAttack(Tile myTile, bool right, int damage, int range, bool overTile, int overRange)
     {
@@ -74,74 +138,6 @@ public class TileManager : MonoBehaviour
            }
        }
     }
-
-    #region 일단 테스트
-    public void MovePlayer_Right()
-    {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-           if(tiles[i].tileOnObjType == 1)
-            {
-                if(i + 1 < tiles.Length && (tiles[i + 1].tileOnObjType == 0))//인덱스가 없을 때 예외처리 추가예정
-                {
-                    
-                    tiles[i].MoveObj_t(tiles[i + 1].transform);
-                }
-                else
-                {
-                    Debug.Log("적이 있거나 배열 범위를 넘음");
-                }
-           }
-        }
-    }
-
-    public void MovePlayer_Left()
-    {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i] == playerOnTile)
-            {
-                if (i - 1 >= 0 && tiles[i - 1].tileOnObjType == 0)//인덱스가 없을 때 예외처리 추가예정
-                {
-
-                    tiles[i].MoveObj_t(tiles[i - 1].transform);
-                }
-                else
-                {
-                    Debug.Log("적이 있거나 배열 범위를 넘음");
-                }
-            }
-        }
-    }
-
-    public void PlayerAttackRight_One(int range)
-    {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i].tileOnObjType == 1)
-            {
-               // if (tiles[i + 1].tileOnObjType == 2)    
-               // {
-                    tiles[i+range].TakeDamage_t(1);
-                //}
-            }
-        }
-    }
-
-    public void PlayerAttackLeft_One(int range)
-    {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i].tileOnObjType == 1)
-            {
-                // if (tiles[i + 1].tileOnObjType == 2)    
-                // {
-                tiles[i - range].TakeDamage_t(1);
-                //}
-            }
-        }
-    }
-    #endregion
 
     void CheckObj()
     {
