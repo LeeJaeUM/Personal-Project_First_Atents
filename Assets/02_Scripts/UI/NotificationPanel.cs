@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class NotificationPanel : MonoBehaviour
 {
-    //2h 10Ка40
     public TMP_Text notificationTMP;
 
     public void Show(string message)

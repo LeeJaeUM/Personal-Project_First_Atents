@@ -6,14 +6,16 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] Tile tileOn;
     TileManager tileManager;
-    public int enemyType = 0;
+    public int enemyType = 1;
     public int attackDamage = 1;
     public int attackRange = 1;
 
     public Transform playerTransform;
     public bool playerDir = false;  //false면 왼쪽 true면 오른쪽 공격
-    public bool playerOnRange = true;
+    //public bool playerOnRange = true;
     public bool isActionStandby = false;
+
+    public bool CheckFind = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -42,8 +44,10 @@ public class EnemyBase : MonoBehaviour
         InpuCheckKey();
 #endif
         //플레이어의 위치를 찾아 공격 및 이동의 방향을 정함
-        playerDir = playerTransform.position.x > transform.position.x;
-
+        if(playerTransform != null)
+        {
+            playerDir = playerTransform.position.x > transform.position.x;
+        }
     }
 
     void InpuCheckKey()
@@ -56,7 +60,15 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyActions()
     {
-
+        CheckFind = tileManager.EnemyCheckPlayerPos(tileOn, playerDir, attackRange);
+        if (tileManager.EnemyCheckPlayerPos(tileOn, playerDir, attackRange))
+        {
+            EnemyAttack(enemyType);
+        }
+        else
+        {
+            tileManager.EnemyTileMove(tileOn, playerDir, 1);
+        }
     }
 
     void EnemyAttack(int attackCode)
@@ -89,6 +101,12 @@ public class EnemyBase : MonoBehaviour
         tileManager.EnemyTileAttack(tileOn, playerDir, attackDamage, 2, true, 1);
     }
 
-
-
+    void Move_Range1()
+    {
+        tileManager.EnemyTileMove(tileOn, playerDir, 1);
+    }
+    void Move_Range2()
+    {
+        tileManager.EnemyTileMove(tileOn, playerDir, 2);
+    }
 }

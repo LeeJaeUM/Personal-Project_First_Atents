@@ -61,7 +61,7 @@ public class TurnManager : MonoBehaviour
     IEnumerator StartTurnCo()   //턴 시작 시 실행할 코루틴
     {
         isLoading = true;
-        if (myTurn) { GameManager.Inst.Notification("나의 턴일까?"); }
+        if (myTurn) { GameManager.Inst.Notification("나의 턴"); }
             
         yield return delay07;
         OnAddCard?.Invoke(myTurn);

@@ -6,7 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     TurnManager turnManager;
     public bool changeTurn = false;
-    EnemyBase[] enemies;
+    [SerializeField] EnemyBase[] enemies;
 
     void Start()
     {
@@ -57,7 +57,7 @@ public class EnemyManager : MonoBehaviour
             // 순서에 따라 각각의 EnemyBase에 대해 행동 함수 실행
             for (int i = 0; i < enemies.Length; i++)
             {
-                //enemies[i].EnemyAttack(enemies[i].enemyType);
+                enemies[i].EnemyActions();
                 enemies[i].isActionStandby = false;
                 yield return new WaitForSeconds(1.2f);
             }

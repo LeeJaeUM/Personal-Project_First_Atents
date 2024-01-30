@@ -155,7 +155,6 @@ public class TileManager : MonoBehaviour
     }
     public void EnemyTileMove(Tile myTile, bool right, int range)
     {
-        int temp = 0;
         int moveDir = 1;
         if (!right) //fasle라면 왼쪽 이동
         {
@@ -165,16 +164,41 @@ public class TileManager : MonoBehaviour
         {
             if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
             {
-                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + range].tileOnObjType == 0))
+                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + (range * moveDir)].tileOnObjType == 0))
                 {
 
-                    tiles[i].MoveObj_t(tiles[i + range].transform);
+                    tiles[i].MoveObj_t(tiles[i + (range * moveDir)].transform);
                 }
                 else
                 {
-                    Debug.Log("적이 있거나 배열 범위를 넘음");
+                    Debug.Log("플레이어가 있거나 배열 범위를 넘음");
                 }
             }
         }
+    }
+
+    public bool EnemyCheckPlayerPos(Tile myTile, bool playerDir, int attackRange)
+    {
+        int temp = attackRange;
+        if (!playerDir)
+        {
+            temp *= -1;
+        }
+        bool isPlayerOnRange = true;
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
+            {
+                if (tiles[i+(1*temp)].tileOnObjType == 1)
+                {
+                    isPlayerOnRange = true;
+                }
+                else
+                {
+                    isPlayerOnRange = false;
+                }
+            }
+        }
+        return isPlayerOnRange;
     }
 }

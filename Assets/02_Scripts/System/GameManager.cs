@@ -40,4 +40,5 @@ public class GameManager : MonoBehaviour
     {
         notificationPanel.Show(message);
     }
+
 }
