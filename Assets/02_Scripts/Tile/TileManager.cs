@@ -118,7 +118,7 @@ public class TileManager : MonoBehaviour
     /// <param name="range">범위</param>
     /// <param name="isOverTile">띄는칸이있는가?</param>
     /// <param name="overRange">몇칸 띌건지</param>
-    public void TestTileAttack(Tile myTile, bool right, int damage, int range, bool isOverTile, int overRange)
+    public void EnemyTileAttack(Tile myTile, bool right, int damage, int range, bool isOverTile, int overRange)
     {
        int temp = 0;
        int atkDir = 1;
@@ -153,24 +153,28 @@ public class TileManager : MonoBehaviour
            }
        }
     }
-
-    void CheckObj()
+    public void EnemyTileMove(Tile myTile, bool right, int range)
     {
-        for(int i = 0; i < tiles.Length; i++)
+        int temp = 0;
+        int moveDir = 1;
+        if (!right) //fasle라면 왼쪽 이동
         {
-            switch(tiles[i].tileOnObjType)
+            moveDir = -1;
+        }
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
             {
-                case 1: 
-                    //플레이어일때
-                    break;
-                case 2:
-                    //적일때
-                    break;
-                case 3:
-                    //Enviroment일때
-                    break;
+                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + range].tileOnObjType == 0))
+                {
+
+                    tiles[i].MoveObj_t(tiles[i + range].transform);
+                }
+                else
+                {
+                    Debug.Log("적이 있거나 배열 범위를 넘음");
+                }
             }
         }
     }
-
 }

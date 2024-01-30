@@ -6,6 +6,8 @@ public class EnemyManager : MonoBehaviour
 {
     TurnManager turnManager;
     public bool changeTurn = false;
+    EnemyBase[] enemies;
+
     void Start()
     {
         turnManager = TurnManager.Inst.GetComponent<TurnManager>();
@@ -27,10 +29,10 @@ public class EnemyManager : MonoBehaviour
         if (turnManager.myTurn)
         {
             // EnemyBase 스크립트를 가진 모든 오브젝트를 찾기
-            EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
+            enemies = FindObjectsOfType<EnemyBase>();
             for (int i = 0; i < enemies.Length; i++)
             {
-                enemies[i].isAttackStandby = true;
+                enemies[i].isActionStandby = true;
                 switch (enemies[i].enemyType)
                 {
                     case 0:
@@ -51,12 +53,12 @@ public class EnemyManager : MonoBehaviour
         }
         else if (!turnManager.myTurn)
         {
-            EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
-            // 순서에 따라 각각의 EnemyBase에 대해 공격 함수 실행
+            enemies = FindObjectsOfType<EnemyBase>();
+            // 순서에 따라 각각의 EnemyBase에 대해 행동 함수 실행
             for (int i = 0; i < enemies.Length; i++)
             {
-                enemies[i].EnemyAttack(enemies[i].enemyType);
-                enemies[i].isAttackStandby = false;
+                //enemies[i].EnemyAttack(enemies[i].enemyType);
+                enemies[i].isActionStandby = false;
                 yield return new WaitForSeconds(1.2f);
             }
         }
