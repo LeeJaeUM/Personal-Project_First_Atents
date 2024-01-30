@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
     TurnManager turnManager;
     public bool changeTurn = false;
     [SerializeField] EnemyBase[] enemies;
+    WaitForSeconds delay06 = new WaitForSeconds(0.6f);
 
     void Start()
     {
@@ -59,7 +60,7 @@ public class EnemyManager : MonoBehaviour
             {
                 enemies[i].EnemyActions();
                 enemies[i].isActionStandby = false;
-                yield return new WaitForSeconds(1.2f);
+                yield return new WaitForSeconds(delay06);
             }
         }
         yield return null;
