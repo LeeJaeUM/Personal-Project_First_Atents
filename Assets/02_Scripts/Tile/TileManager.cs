@@ -16,6 +16,8 @@ public class TileManager : MonoBehaviour
 
     private int right = 1;
     private int left = -1;
+    private bool isRight = true;
+    private bool isLeft = false;
 
     private void Start()
     {
@@ -61,16 +63,20 @@ public class TileManager : MonoBehaviour
                 break;   
             case 3: break;
             case 4:
-                PlayerAttack_One(1, right);
+                PlayerTileAttack(isRight, 2, 1, false, 0);
                 break;
             case 5: break;
             case 6:
-                PlayerAttack_One(1, left);
+                PlayerTileAttack(isLeft, 2, 1, false, 0);
                 break;
             case 7: break; 
-            case 8: break;
+            case 8:
+                PlayerTileAttack(isRight, 1, 2, false, 0);
+                break;
             case 9: break;
-            case 10: break;
+            case 10:
+                PlayerMove(right+1);
+                break;
             default:
                 Debug.Log("현재 없는 카드 코드입니다");
                 break;
@@ -96,14 +102,41 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void PlayerAttack_One(int range, int attackDirection)
+    public void PlayerTileAttack(bool right, int damage, int range, bool isOverTile, int overRange)
     {
+        int temp = 0;
+        int atkDir = 1;
+        if (isOverTile)
+        {
+            temp += overRange; //건너뛸 거리
+        }
+        if (!right) //fasle라면 왼쪽 공격
+        {
+            atkDir = -1;
+        }
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (tiles[i].tileOnObjType == 1)
+            if (tiles[i].tileOnObjType == 1) // 배열에서 플레이어가 위치한 타일을 찾기
             {
-                if(i + 1 < tiles.Length && i - 1 >= 0)
-                    tiles[i + range * attackDirection].TakeDamage_t(1);
+                switch (range)
+                {
+                    case 0:
+                        tiles[i].TakeDamage_t(damage); 
+                        break;
+                    case 1:
+                        tiles[i + (range * atkDir) + (temp * atkDir)].TakeDamage_t(damage);
+                        Debug.Log($"범위 {range}의 공격 - 뛰어넘은 거리 = {temp}");
+                        break;
+                    default:
+                        for (int j = 1; j < range + 1; j++)
+                        {
+                            tiles[i + (j * atkDir) + (temp * atkDir)].TakeDamage_t(damage);
+
+                            Debug.Log($"범위 {range}의 공격 - 뛰어넘은 거리 = {temp}");
+                            Debug.Log($"------{j}번째 공격 ");
+                        }
+                        break;
+                }
             }
         }
     }

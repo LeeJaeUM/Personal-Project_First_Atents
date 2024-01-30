@@ -60,7 +60,7 @@ public class EnemyManager : MonoBehaviour
             {
                 enemies[i].EnemyActions();
                 enemies[i].isActionStandby = false;
-                yield return new WaitForSeconds(delay06);
+                yield return delay06;
             }
         }
         yield return null;
