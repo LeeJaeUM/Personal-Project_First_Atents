@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,10 @@ public class EnemyBase : MonoBehaviour
     public bool playerDir = false;  //false면 왼쪽 true면 오른쪽 공격
     //public bool playerOnRange = true;
     public bool isActionStandby = false;
+    [SerializeField]SpriteRenderer[] spriteRenderers;
 
     public bool CheckFind = false;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,6 +30,7 @@ public class EnemyBase : MonoBehaviour
     private void Start()
     {
         tileManager = TileManager.Inst.GetComponent<TileManager>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         // 플레이어를 찾아서 playerTransform 변수에 할당
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
@@ -37,16 +41,33 @@ public class EnemyBase : MonoBehaviour
         {
             Debug.LogWarning("플레이어를 찾을 수 없습니다. 이름이나 다른 식별자를 확인하세요.");
         }
+        //플레이어의 위치를 찾아 공격 및 이동의 방향을 정함
+        if (playerTransform != null)
+        {
+            playerDir = playerTransform.position.x > transform.position.x;
+            if (playerDir)
+                spriteRenderers[0].flipX = !spriteRenderers[0].flipX;
+        }
+
     }
     void Update()
     {
 #if UNITY_EDITOR
         InpuCheckKey();
 #endif
-        //플레이어의 위치를 찾아 공격 및 이동의 방향을 정함
-        if(playerTransform != null)
+        if(isActionStandby)
         {
-            playerDir = playerTransform.position.x > transform.position.x;
+            for(int i = 1; i < spriteRenderers.Length; i++)
+            {
+                spriteRenderers[i].enabled = true;
+            }
+        }
+        else
+        {
+            for (int i = 1; i < spriteRenderers.Length; i++)
+            {
+                spriteRenderers[i].enabled = false;
+            }
         }
     }
 
@@ -56,6 +77,11 @@ public class EnemyBase : MonoBehaviour
             Attack_Range1();
         if (Input.GetKeyDown(KeyCode.S))
             Attack_Range2();
+    }
+
+    void EnemyLookPlayer()
+    {
+
     }
 
     public void EnemyActions()
