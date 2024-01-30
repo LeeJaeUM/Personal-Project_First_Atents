@@ -20,9 +20,13 @@ public class Character : MonoBehaviour
         }
     }
 
+    Animator anim;
+    private int isHitted_String = Animator.StringToHash("isHitted");
+
     private void Awake()
     {
         Hp = maxHp;
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -33,6 +37,7 @@ public class Character : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Hp -= damage;
+        anim.SetTrigger(isHitted_String);
     }
 
     void Die()
@@ -47,6 +52,7 @@ public class Character : MonoBehaviour
             spriteRenderer.color = new Color(0.5f,0.5f,0.5f,0.5f);
             Collider2D collider = GetComponent<Collider2D>();
             collider.enabled = false;
+            Destroy(gameObject, 0.5f);
             isDieCheck = true;
         }
     }

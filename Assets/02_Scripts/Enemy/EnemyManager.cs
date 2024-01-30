@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
             EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
             for (int i = 0; i < enemies.Length; i++)
             {
-
+                enemies[i].isAttackStandby = true;
                 switch (enemies[i].enemyType)
                 {
                     case 0:
@@ -45,15 +45,7 @@ public class EnemyManager : MonoBehaviour
                     case 3:
                         Debug.Log("Enemy타입이 3 입니다.");
                         break;
-                    case 4:
-                        Debug.Log("Enemy타입이 4 입니다.");
-                        break;
-                    case 5:
-                        Debug.Log("Enemy타입이 5 입니다.");
-                        break;
-                    case 6:
-                        Debug.Log("Enemy타입이 6 입니다.");
-                        break;
+
                 }
             }
         }
@@ -63,31 +55,9 @@ public class EnemyManager : MonoBehaviour
             // 순서에 따라 각각의 EnemyBase에 대해 공격 함수 실행
             for (int i = 0; i < enemies.Length; i++)
             {
-
-                switch (enemies[i].enemyType)
-                {
-                    case 0:
-                        Debug.Log("Enemy타입이 0 입니다.");
-                        break;
-                    case 1:
-                        Debug.Log("Enemy타입이 1 입니다.");
-                        break;
-                    case 2:
-                        Debug.Log("Enemy타입이 2 입니다.");
-                        break;
-                    case 3:
-                        Debug.Log("Enemy타입이 3 입니다.");
-                        break;
-                    case 4:
-                        Debug.Log("Enemy타입이 4 입니다.");
-                        break;
-                    case 5:
-                        Debug.Log("Enemy타입이 5 입니다.");
-                        break;
-                    case 6:
-                        Debug.Log("Enemy타입이 6 입니다.");
-                        break;
-                }
+                enemies[i].EnemyAttack(enemies[i].enemyType);
+                enemies[i].isAttackStandby = false;
+                yield return new WaitForSeconds(1.2f);
             }
         }
         yield return null;

@@ -14,7 +14,7 @@ public class CostManager : MonoBehaviour
     public bool isCostZero = false;
     public bool isCostFull = false;
 
-    private int turnCount = 0;
+    //private int turnCount = 0;
     public int upCost_EndTurn = 2;
     WaitForSeconds delay01 = new WaitForSeconds(0.1f);
 
