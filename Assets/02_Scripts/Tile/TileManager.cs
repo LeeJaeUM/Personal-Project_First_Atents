@@ -46,7 +46,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    #region 일단 테스트
+    #region 플레이어 행동
     private void PlayerCardStandby(int itemCode)
     {
         switch(itemCode)
@@ -164,7 +164,7 @@ public class TileManager : MonoBehaviour
         {
             if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
             {
-                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + (range * moveDir)].tileOnObjType == 0))
+                if (tiles[i + (range * moveDir)].tileOnObjType == 0)
                 {
 
                     tiles[i].MoveObj_t(tiles[i + (range * moveDir)].transform);
