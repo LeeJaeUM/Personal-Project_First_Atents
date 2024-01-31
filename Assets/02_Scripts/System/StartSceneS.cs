@@ -8,7 +8,7 @@ public class StartSceneS : MonoBehaviour
     public void StartGame()
     {
         // "GameScene"으로 씬 전환
-        SceneManager.LoadScene("02_StageSelect");
+        SceneManager.LoadScene("StageSelect");
     }
 
     public void ExitGame()
