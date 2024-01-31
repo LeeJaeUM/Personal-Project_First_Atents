@@ -10,6 +10,10 @@
 
 ### 프로젝트 소개 
 카드를 사용해 타일의 위치를 바꾸거나 공격하여 적을 처치하는 카드게임
+-----
+
+### 플레이 영상 링크 : https://youtu.be/w5VEBYRP6Ls
+----
 
 ### 플레이 방법
 ![explain_final](https://github.com/LeeJaeUM/Personal-Project_First_Atents/assets/106094800/e28ea6cb-ea64-4b6c-b190-f797d16d8b18)
