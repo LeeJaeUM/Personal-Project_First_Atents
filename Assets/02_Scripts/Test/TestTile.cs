@@ -11,11 +11,11 @@ public class TestTile : TestBase
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
-        tileManager.PlayerMove(1);
+        tileManager.PlayerMove(true, 1);
     }
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        tileManager.PlayerMove(-1);
+        tileManager.PlayerMove(false, 1);
     }
     protected override void OnTest3(InputAction.CallbackContext context)
     {

@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Inst { get; private set; }
+    void Awake() => Inst = this;
     TurnManager turnManager;
     public bool changeTurn = false;
     [SerializeField] EnemyBase[] enemies;
     WaitForSeconds delay06 = new WaitForSeconds(0.6f);
+
+    public static Action OnEnemyAllDie; // 스테이지 클리어 확인용 액션 GameManager, PlayerWin 에서 사용
+    private bool oneCheck_EnemyDie_Action = false;
 
     void Start()
     {
@@ -17,6 +23,18 @@ public class EnemyManager : MonoBehaviour
 
         enemies = FindObjectsOfType<EnemyBase>();
     }
+    private void Update()
+    {
+        if(enemies.Length == 0)
+        {
+            Debug.Log("WWWWWWWAaaakak");
+            if (!oneCheck_EnemyDie_Action)
+            {
+                OnEnemyAllDie?.Invoke();
+                oneCheck_EnemyDie_Action = true;
+            }
+        }
+    }
 
     void OnDestroy()
     {
@@ -25,6 +43,7 @@ public class EnemyManager : MonoBehaviour
     }
     void ChangeTurn()
     {
+        enemies = FindObjectsOfType<EnemyBase>();
         StartCoroutine(EnemyPatternCo());
     }
 
@@ -35,8 +54,6 @@ public class EnemyManager : MonoBehaviour
     {
         if (turnManager.myTurn)
         {
-            // EnemyBase 스크립트를 가진 모든 오브젝트를 찾기
-            //enemies = FindObjectsOfType<EnemyBase>();
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].isActionStandby = true;
@@ -61,7 +78,6 @@ public class EnemyManager : MonoBehaviour
         }
         else if (!turnManager.myTurn)
         {
-            //enemies = FindObjectsOfType<EnemyBase>();
             // 순서에 따라 각각의 EnemyBase에 대해 행동 함수 실행
             for (int i = 0; i < enemies.Length; i++)
             {

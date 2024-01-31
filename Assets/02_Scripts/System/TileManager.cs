@@ -13,9 +13,6 @@ public class TileManager : MonoBehaviour
 
     public Tile playerOnTile;
     CardManager cardManager;
-
-    private int right = 1;
-    private int left = -1;
     private bool isRight = true;
     private bool isLeft = false;
 
@@ -64,12 +61,12 @@ public class TileManager : MonoBehaviour
         switch(itemCode)
         {
             case 0:
-                PlayerMove(right);
+                PlayerMove(isRight, 1);
                 break;
             case 1:
                 break;
             case 2:
-                PlayerMove(left);
+                PlayerMove(isLeft, 1);
                 break;   
             case 3: break;
             case 4:
@@ -85,7 +82,7 @@ public class TileManager : MonoBehaviour
                 break;
             case 9: break;
             case 10:
-                PlayerMove(right+1);
+                PlayerMove(isRight, 2);
                 break;
             default:
                 Debug.Log("현재 없는 카드 코드입니다");
@@ -93,16 +90,23 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void PlayerMove(int attackDirection)
+    public void PlayerMove(bool right, int range)
     {
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Move);
+        int moveDir = 1;
+        if (!right) //fasle라면 왼쪽 이동
+        {
+            moveDir = -1;
+        }
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].tileOnObjType == 1)
             {
-                if (i + 1 < tiles.Length && i - 1 >= 0 && (tiles[i + attackDirection].tileOnObjType == 0))
+                if (i + (range * moveDir) < tiles.Length && i + (range * moveDir) >= 0 
+                    && (tiles[i + (range * moveDir)].tileOnObjType == 0))
+                //if (tiles[i + (range * moveDir)].tileOnObjType == 0)
                 {
-
-                    tiles[i].MoveObj_t(tiles[i + attackDirection].transform);
+                    tiles[i].MoveObj_t(tiles[i + (range * moveDir)].transform);
                 }
                 else
                 {
@@ -111,9 +115,33 @@ public class TileManager : MonoBehaviour
             }
         }
     }
+    public void EnemyTileMove(Tile myTile, bool right, int range)
+    {
+        int moveDir = 1;
+        if (!right) //fasle라면 왼쪽 이동
+        {
+            moveDir = -1;
+        }
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
+            {
+                if (tiles[i + (range * moveDir)].tileOnObjType == 0)
+                {
+
+                    tiles[i].MoveObj_t(tiles[i + (range * moveDir)].transform);
+                }
+                else
+                {
+                    Debug.Log("플레이어가 있거나 배열 범위를 넘음");
+                }
+            }
+        }
+    }
 
     public void PlayerTileAttack(bool right, int damage, int range, bool isOverTile, int overRange)
     {
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Attack);
         int temp = 0;
         int atkDir = 1;
         if (isOverTile)
@@ -163,6 +191,7 @@ public class TileManager : MonoBehaviour
     /// <param name="overRange">몇칸 띌건지</param>
     public void EnemyTileAttack(Tile myTile, bool right, int damage, int range, bool isOverTile, int overRange)
     {
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
        int temp = 0;
        int atkDir = 1;
        if (isOverTile)
@@ -195,29 +224,6 @@ public class TileManager : MonoBehaviour
                 }
            }
        }
-    }
-    public void EnemyTileMove(Tile myTile, bool right, int range)
-    {
-        int moveDir = 1;
-        if (!right) //fasle라면 왼쪽 이동
-        {
-            moveDir = -1;
-        }
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i] == myTile) // 배열에서 호출한 타일을 찾기
-            {
-                if (tiles[i + (range * moveDir)].tileOnObjType == 0)
-                {
-
-                    tiles[i].MoveObj_t(tiles[i + (range * moveDir)].transform);
-                }
-                else
-                {
-                    Debug.Log("플레이어가 있거나 배열 범위를 넘음");
-                }
-            }
-        }
     }
 
     public bool EnemyCheckPlayerPos(Tile myTile, bool playerDir, int attackRange)

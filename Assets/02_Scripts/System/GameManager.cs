@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartGame();
+        EnemyManager.OnEnemyAllDie += PlayerWin;
+    }
+    private void OnDestroy()
+    {
+        EnemyManager.OnEnemyAllDie -= PlayerWin;
     }
 
     void Update()
@@ -18,6 +23,8 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         InpuCheckKey();
 #endif
+
+
     }
 
     void InpuCheckKey()
@@ -39,6 +46,11 @@ public class GameManager : MonoBehaviour
     public void Notification(string message)
     {
         notificationPanel.Show(message);
+    }
+
+    void PlayerWin()
+    {
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }
 
 }

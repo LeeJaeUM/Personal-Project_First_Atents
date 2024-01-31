@@ -15,5 +15,11 @@ public class StartSceneS : MonoBehaviour
     {
         // 게임 종료
         Application.Quit();
+        AudioManager.instance.PlayBgm(false);
+    }
+
+    private void Start()
+    {
+        AudioManager.instance.PlayBgm(true);
     }
 }
