@@ -37,6 +37,16 @@ public class TileManager : MonoBehaviour
         cardManager.OnCardStandBy += PlayerCardStandby;
 
     }
+
+    void OnDestroy()
+    {
+        // 스크립트가 파괴될 때 이벤트 핸들러를 제거
+        cardManager.OnCardStandBy -= PlayerCardStandby;
+        foreach (var tile in tiles)
+        {
+            tile.OnTileOnObject -= ObjectOnTile;
+        }
+    }
     private void ObjectOnTile(int objType, Tile tile)
     {
         playerOnTile = null;

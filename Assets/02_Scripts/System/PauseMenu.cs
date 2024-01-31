@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    // 정적 변수를 사용하여 인스턴스를 저장합니다.
+    //private static PauseMenu instance;
+
+    private void Awake()
+    {
+        var obj = FindObjectsOfType<PauseMenu>();
+        if (obj.Length == 1)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private bool isPaused = false;
     private GameObject pauseMenuObj;
     
     // PauseMenu 캔버스를 'DontDestroyOnLoad'로 지정
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         pauseMenuObj = transform.GetChild(0).gameObject;
-
     }
 
 
@@ -61,6 +75,12 @@ public class PauseMenu : MonoBehaviour
 
     public void ContinueGame()
     {
+        TogglePause();
+    }
+
+    public void SelectScene()
+    {
+        SceneManager.LoadScene("StageSelect");
         TogglePause();
     }
 
