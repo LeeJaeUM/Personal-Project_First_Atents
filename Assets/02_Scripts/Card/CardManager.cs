@@ -181,8 +181,8 @@ public class CardManager : MonoBehaviour
 
     public void CardMouseOver(Card card)
     {
-        if (eCardState == ECardState.Nothing)   //eCardState == ECardState.Nothing일때 오버 못하게 막기
-            return;
+      //  if (eCardState == ECardState.Nothing)   //eCardState == ECardState.Nothing일때 오버 못하게 막기
+      //      return;
 
         selectCard = card;
         EnlargeCard(true, card);
@@ -193,8 +193,8 @@ public class CardManager : MonoBehaviour
     }
     public void CardMouseDown()     //마우스를 누르면 bool변수 isMyCardDrag ture로 바꿔서 Update의 CardDrag() 실행가능하게
     {
-        if (eCardState != ECardState.CanMouseDrag)
-            return;
+       // if (eCardState != ECardState.CanMouseDrag)
+       //     return;
 
         isMyCardDrag = true;
     }
@@ -202,8 +202,8 @@ public class CardManager : MonoBehaviour
     {
         isMyCardDrag = false;
 
-        if (eCardState != ECardState.CanMouseDrag)
-            return;
+       // if (eCardState != ECardState.CanMouseDrag)
+       //     return;
 
         //카드를 위에다 드래그 업 했을 때 카드는 위 쪽에 놓아지고 턴이 지나면 다시 돌아와야함
         //card.gameObject.SetActive(false);

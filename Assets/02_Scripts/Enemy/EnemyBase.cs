@@ -41,13 +41,7 @@ public class EnemyBase : MonoBehaviour
         {
             Debug.LogWarning("플레이어를 찾을 수 없습니다. 이름이나 다른 식별자를 확인하세요.");
         }
-        //플레이어의 위치를 찾아 공격 및 이동의 방향을 정함
-        if (playerTransform != null)
-        {
-            playerDir = playerTransform.position.x > transform.position.x;
-            if (playerDir)
-                spriteRenderers[0].flipX = !spriteRenderers[0].flipX;
-        }
+        EnemyLookPlayer();
 
     }
     void Update()
@@ -79,9 +73,16 @@ public class EnemyBase : MonoBehaviour
             Attack_Range2();
     }
 
-    void EnemyLookPlayer()
+    public void EnemyLookPlayer()
     {
-
+        bool isTems = playerDir;
+        //플레이어의 위치를 찾아 공격 및 이동의 방향을 정함
+        if (playerTransform != null)
+        {
+            playerDir = playerTransform.position.x > transform.position.x;
+            if (playerDir != isTems)
+                spriteRenderers[0].flipX = !spriteRenderers[0].flipX;
+        }
     }
 
     public void EnemyActions()

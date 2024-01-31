@@ -34,6 +34,7 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].isActionStandby = true;
+                enemies[i].EnemyLookPlayer();
                 switch (enemies[i].enemyType)
                 {
                     case 0:
